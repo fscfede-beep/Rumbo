@@ -66,8 +66,25 @@ def evaluate_payload(payload: dict[str, Any]) -> dict[str, Any]:
     if permission_evidence is not None:
         if not isinstance(permission_evidence, dict):
             return _fail("PERMISSION_EVIDENCE_INVALID")
-        if not str(permission_evidence.get("source") or "").strip():
+        permission_source = str(permission_evidence.get("source") or "").strip()
+        if not permission_source:
             return _fail("PERMISSION_EVIDENCE_SOURCE_REQUIRED")
+        expected_permission_source = str(authority.get("permission_source") or "").strip()
+        if not expected_permission_source:
+            return _fail("PERMISSION_AUTHORITY_SOURCE_REQUIRED")
+        if permission_source != expected_permission_source:
+            return _fail("PERMISSION_EVIDENCE_SOURCE_MISMATCH")
+        active_profile = permission_evidence.get("activePermissionProfile")
+        if not isinstance(active_profile, dict):
+            return _fail("ACTIVE_PERMISSION_PROFILE_REQUIRED")
+        active_profile_id = str(active_profile.get("id") or "").strip()
+        if not active_profile_id:
+            return _fail("ACTIVE_PERMISSION_PROFILE_ID_REQUIRED")
+        expected_profile_id = str(authority.get("permission_profile_id") or "").strip()
+        if not expected_profile_id:
+            return _fail("PERMISSION_PROFILE_AUTHORITY_REQUIRED")
+        if active_profile_id != expected_profile_id:
+            return _fail("PERMISSION_PROFILE_AUTHORITY_MISMATCH")
         raw_writable = permission_evidence.get("writableRoots")
         if not isinstance(raw_writable, list):
             return _fail("PERMISSION_WRITABLE_ROOTS_INVALID")
