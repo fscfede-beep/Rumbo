@@ -1,0 +1,30 @@
+{
+  "schema": "rumbo-roadmap-reconciliation/v1",
+  "date": "2026-09-05",
+  "repository": "RUMBO-IA/Rumbo",
+  "base_sha": "d798e226ed5fec35ee995dc422e5aa6067979d43",
+  "p0_privacy_ci": {
+    "status": "RESOLVED_WITH_EVIDENCE",
+    "pr": 41,
+    "head_sha": "0e1997cb1308e481aaa25f1635b522b3e6a0ead4",
+    "workflow_run_id": 33952134365,
+    "workflow_run_number": 267,
+    "workflow_conclusion": "success",
+    "vercel_status": "success"
+  },
+  "rumbo_chatgpt_runtime": {
+    "status": "PASS",
+    "successful_capabilities": [
+      "canonical-state-recovery",
+      "goal-loop-controller",
+      "execute-verify-close"
+    ]
+  },
+  "repository_protection": {
+    "status": "ENFORCED",
+    "direct_connector_write": "BLOCKED_BY_AUTHOR_EMAIL_RULE",
+    "rules_weakened": false
+  },
+  "merge_authorization": "NOT_GRANTED",
+  "production": "NO_GO"
+}
