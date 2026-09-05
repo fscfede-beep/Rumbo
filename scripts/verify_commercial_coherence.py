@@ -7,12 +7,13 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 INDEX = ROOT / "index.html"
+PUBLIC_HTML = (INDEX, ROOT / "apps/landing-publica/index.html", ROOT / "apps/landing-publica/index-es.html")
 README = ROOT / "README.md"
 TYPEFORM = "https://form.typeform.com/to/Tu3D3tVo"
 TYPEFORM_PREFIX = "https://form.typeform.com/to/"
 TYPEFORM_URL = re.compile(r"https://form\.typeform\.com/to/[A-Za-z0-9]+")
 MONTHLY_PRICE = re.compile(
-    r"(?:USD|\$)\s*\d+(?:[.,]\d+)?\s*/\s*(?:mes|month)\b",
+    r"(?:USD|\$)\s*\d+(?:[.,]\d+)?\s*(?:/\s*(?:mes|month)|a\s+month|al\s+mes)\b",
     re.I,
 )
 
@@ -52,6 +53,8 @@ class AnchorParser(HTMLParser):
 
 def check(readme: str, html: str) -> list[str]:
     errors: list[str] = []
+    plain_html = re.sub(r"<[^>]+>", " ", html)
+    plain_html = re.sub(r"\s+", " ", plain_html)
 
     for value in README_INVARIANTS:
         if value not in readme:
@@ -61,8 +64,11 @@ def check(readme: str, html: str) -> list[str]:
         if value.casefold() not in html.casefold():
             errors.append(f"INDEX_MISSING:{value}")
 
-    if MONTHLY_PRICE.search(html):
+    if MONTHLY_PRICE.search(plain_html):
         errors.append("MONTHLY_PRICE")
+
+    if "@rumbo_ia" in html.casefold():
+        errors.append("STALE_SOCIAL_HANDLE")
 
     if "mailto:" in readme.casefold() or "mailto:" in html.casefold():
         errors.append("PUBLIC_MAILTO")
@@ -90,13 +96,13 @@ def check(readme: str, html: str) -> list[str]:
 
 
 def main() -> int:
-    if not README.is_file() or not INDEX.is_file():
+    if not README.is_file() or any(not path.is_file() for path in PUBLIC_HTML):
         print("COMMERCIAL_COHERENCE_FAIL: REQUIRED_PUBLIC_SURFACE_MISSING")
         return 1
 
     errors = check(
         README.read_text(encoding="utf-8"),
-        INDEX.read_text(encoding="utf-8"),
+        "\n".join(path.read_text(encoding="utf-8") for path in PUBLIC_HTML),
     )
     if errors:
         print(f"COMMERCIAL_COHERENCE_FAIL: {len(errors)} violation(s)")
