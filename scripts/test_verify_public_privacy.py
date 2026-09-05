@@ -1,4 +1,4 @@
-import sys
+﻿import sys
 import unittest
 from pathlib import Path
 from unittest import mock
@@ -91,6 +91,11 @@ class PrivacyGateRegressionTests(unittest.TestCase):
         marker = "rel=" + chr(34) + "me" + chr(34)
         self.assertTrue(gate.text_has_direct_person_profile("<link " + marker + " href=https://example.test/profile>"))
 
+    def test_denied_value_line_numbers_do_not_expose_value(self):
+        value = "synthetic private marker"
+        deny = {gate.sha(value)}
+        text = "safe line\nsynthetic private marker\nother line\n"
+        self.assertEqual(gate.denied_value_line_numbers(text, deny), [2])
     def test_word_ngram_deny_behavior_is_preserved(self):
         deny = {gate.sha("private surname")}
         self.assertTrue(gate.text_has_denied_value("hello private surname world", deny))
@@ -105,3 +110,4 @@ class PrivacyGateRegressionTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+

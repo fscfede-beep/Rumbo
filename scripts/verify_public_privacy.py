@@ -69,6 +69,14 @@ def text_has_denied_value(text: str, deny: set[str]) -> bool:
     )
 
 
+def denied_value_line_numbers(text: str, deny: set[str]) -> list[int]:
+    return [
+        line_number
+        for line_number, line in enumerate(text.splitlines(), start=1)
+        if text_has_denied_value(line, deny)
+    ]
+
+
 def text_has_unapproved_email(text: str) -> bool:
     return any(email not in APPROVED_PUBLIC_TEXT_EMAILS for email in email_candidates(text))
 
@@ -147,7 +155,11 @@ def main() -> int:
         if text_has_unapproved_email(text):
             violations.append(f"{relpath}:unapproved-email")
         if text_has_denied_value(text, deny):
-            violations.append(f"{relpath}:denied-value")
+            lines = denied_value_line_numbers(text, deny)
+            if lines:
+                violations.extend(f"{relpath}:denied-value:line-{line}" for line in lines)
+            else:
+                violations.append(f"{relpath}:denied-value:line-unknown")
         if text_has_direct_person_profile(text):
             violations.append(f"{relpath}:direct-person-profile")
 
