@@ -1,0 +1,68 @@
+{
+    "schemaVersion":  1,
+    "sourceKind":  "tracked-historical-self-hosted-assets",
+    "sourceRepository":  "fscfede-beep/Rumbo (historical source; later RUMBO-IA/Rumbo)",
+    "sourceCommit":  "ebf1c60",
+    "sourceTreeCommit":  "18018c45f6a8d32c9b730bd56b5b4ffc4fa5667d",
+    "sourcePath":  "apps/landing-publica/fonts",
+    "restoredDate":  "2026-09-05",
+    "licenses":  {
+                     "dmMono":  "SIL Open Font License 1.1",
+                     "syne":  "SIL Open Font License 1.1",
+                     "dmSans":  "SIL Open Font License 1.1"
+                 },
+    "files":  [
+                  {
+                      "name":  "dm-mono-400-latin.woff2",
+                      "sha256":  "E1896B13B2B1BB112FAC2F9571BD6C40E118746E77A4511EDBF43FBB41BF3E1E"
+                  },
+                  {
+                      "name":  "dm-mono-400-latin-ext.woff2",
+                      "sha256":  "A52E19EBE0398C9C0F8FA28A0C5E9A6BC324F35D9F0881C9AA407D10AF447175"
+                  },
+                  {
+                      "name":  "dm-sans-300-latin.woff2",
+                      "sha256":  "9FEA608A947E67020C33CAD9A6FE3D60C54119DFB8CFF87768A8117A15ED7543"
+                  },
+                  {
+                      "name":  "dm-sans-300-latin-ext.woff2",
+                      "sha256":  "A5D38FE99F930275684999B462C7123FAA063D9E44E73B4B241723D884AA0F49"
+                  },
+                  {
+                      "name":  "dm-sans-400-latin.woff2",
+                      "sha256":  "9FEA608A947E67020C33CAD9A6FE3D60C54119DFB8CFF87768A8117A15ED7543"
+                  },
+                  {
+                      "name":  "dm-sans-400-latin-ext.woff2",
+                      "sha256":  "A5D38FE99F930275684999B462C7123FAA063D9E44E73B4B241723D884AA0F49"
+                  },
+                  {
+                      "name":  "dm-sans-500-latin.woff2",
+                      "sha256":  "9FEA608A947E67020C33CAD9A6FE3D60C54119DFB8CFF87768A8117A15ED7543"
+                  },
+                  {
+                      "name":  "dm-sans-500-latin-ext.woff2",
+                      "sha256":  "A5D38FE99F930275684999B462C7123FAA063D9E44E73B4B241723D884AA0F49"
+                  },
+                  {
+                      "name":  "fonts.css",
+                      "sha256":  "56AC25334055A36750C65026AA17541FA68DA1F90D355FC9434456A5EAEA0302"
+                  },
+                  {
+                      "name":  "syne-700-latin.woff2",
+                      "sha256":  "68B623F0E45B905041B2EDB9B2E4F563A505F13DB1CD06B5F1946EB2E1F47048"
+                  },
+                  {
+                      "name":  "syne-700-latin-ext.woff2",
+                      "sha256":  "83885B130CF2A67BC2FD6175D6F3C2875833552C1762B5943B51335038AE01F2"
+                  },
+                  {
+                      "name":  "syne-800-latin.woff2",
+                      "sha256":  "68B623F0E45B905041B2EDB9B2E4F563A505F13DB1CD06B5F1946EB2E1F47048"
+                  },
+                  {
+                      "name":  "syne-800-latin-ext.woff2",
+                      "sha256":  "83885B130CF2A67BC2FD6175D6F3C2875833552C1762B5943B51335038AE01F2"
+                  }
+              ]
+}
