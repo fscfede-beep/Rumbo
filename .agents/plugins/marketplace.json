@@ -1,0 +1,20 @@
+{
+  "name": "rumbo-plugins",
+  "interface": {
+    "displayName": "RUMBO Plugins"
+  },
+  "plugins": [
+    {
+      "name": "rumbo-coding-agent-reliability",
+      "source": {
+        "source": "local",
+        "path": "./plugins/rumbo-coding-agent-reliability"
+      },
+      "category": "Developer Tools",
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      }
+    }
+  ]
+}

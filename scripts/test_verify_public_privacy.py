@@ -64,6 +64,22 @@ class PrivacyGateRegressionTests(unittest.TestCase):
     def test_full_ancestry_metadata_scan_passes_current_clean_history(self):
         self.assertEqual(gate.commit_metadata_violations("HEAD", set()), [])
 
+    def test_plugin_metadata_requires_exact_content_hash(self):
+        root = Path(__file__).resolve().parents[1]
+        rel = Path(".agents/plugins/marketplace.json")
+        text = (root / rel).read_text(encoding="utf-8")
+        violations = []
+        self.assertTrue(gate.approved_plugin_metadata(rel, text, violations))
+        self.assertEqual(violations, [])
+        drifted = text.rstrip()[:-1] + ',"unexpected":true}'
+        drift_violations = []
+        self.assertFalse(gate.approved_plugin_metadata(rel, drifted, drift_violations))
+        self.assertIn(f"{rel.as_posix()}:metadata-drift", drift_violations)
+
+    def test_plugin_metadata_does_not_bypass_direct_profile_guard(self):
+        marker = "linkedin.com" + "/in/example"
+        self.assertTrue(gate.text_has_direct_person_profile(marker))
+
     def test_metadata_scan_refs_include_selected_ref_and_all_public_refs(self):
         env = {
             "RUMBO_PRIVACY_COMMIT_SHA": "abc123",

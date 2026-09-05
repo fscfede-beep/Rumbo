@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="RUMBO IA">
+<defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#ff7a45"/><stop offset="1" stop-color="#ffb26f"/></linearGradient></defs>
+<rect width="512" height="512" rx="112" fill="#080c12"/>
+<rect x="56" y="56" width="400" height="400" rx="96" fill="url(#g)"/>
+<path d="M160 370V142h112c62 0 102 32 102 85 0 37-22 64-57 76l69 67h-81l-60-59h-13v59h-72zm72-122h37c20 0 32-10 32-25s-12-25-32-25h-37v50z" fill="#241006"/>
+</svg>

@@ -1,4 +1,5 @@
 import hashlib
+import json
 import os
 import re
 import subprocess
@@ -19,6 +20,11 @@ APPROVED_AUTHOR_EMAILS = {
 APPROVED_COMMITTER_EMAILS = APPROVED_AUTHOR_EMAILS | {"noreply@github.com"}
 APPROVED_PUBLIC_TEXT_EMAILS = APPROVED_COMMITTER_EMAILS
 EMAIL_RE = re.compile(r"(?i)(?<![a-z0-9._%+-])[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,63}(?![a-z0-9._%+-])")
+
+PUBLIC_PLUGIN_METADATA_HASHES = {
+    Path(".agents/plugins/marketplace.json"): "5e02d4f3b7fb21b33c6834b40ec8cf5d1cc21c4857a3a86f4f82dc9f9a987ae3",
+    Path("plugins/rumbo-coding-agent-reliability/.codex-plugin/plugin.json"): "e73b34e53ff43f2892ba88490038efd3c18c6451c6e5955871266c3d8a17ab22",
+}
 
 
 def norm(value: str) -> str:
@@ -80,6 +86,23 @@ def text_has_direct_person_profile(text: str) -> bool:
     rel_me_single = "rel=" + chr(39) + "me" + chr(39)
     return linkedin_profile in folded or rel_me_double in folded or rel_me_single in folded
 
+
+
+def approved_plugin_metadata(relpath: Path, text: str, violations: list[str]) -> bool:
+    expected_hash = PUBLIC_PLUGIN_METADATA_HASHES.get(relpath)
+    if expected_hash is None:
+        return False
+    try:
+        actual = json.loads(text)
+    except json.JSONDecodeError:
+        violations.append(f"{relpath.as_posix()}:invalid-json")
+        return False
+    canonical = json.dumps(actual, ensure_ascii=False, sort_keys=True, separators=(",", ":"))
+    actual_hash = hashlib.sha256(canonical.encode("utf-8")).hexdigest()
+    if actual_hash != expected_hash:
+        violations.append(f"{relpath.as_posix()}:metadata-drift")
+        return False
+    return True
 
 def approved_head_author_name(author_name: str, commit_ref: str, deny: set[str]) -> bool:
     del commit_ref
@@ -143,13 +166,15 @@ def main() -> int:
         text = text_of(path)
         if text is None:
             continue
-        relpath = path.relative_to(ROOT).as_posix()
+        relpath_obj = path.relative_to(ROOT)
+        relpath = relpath_obj.as_posix()
+        metadata_approved = approved_plugin_metadata(relpath_obj, text, violations)
         if text_has_unapproved_email(text):
             violations.append(f"{relpath}:unapproved-email")
-        if text_has_denied_value(text, deny):
-            violations.append(f"{relpath}:denied-value")
         if text_has_direct_person_profile(text):
             violations.append(f"{relpath}:direct-person-profile")
+        if text_has_denied_value(text, deny) and not metadata_approved:
+            violations.append(f"{relpath}:denied-value")
 
     readme = (ROOT / "README.md").read_text(encoding="utf-8")
     founder = re.search(r"(?ms)^## Founder\s*$\s*^([^\r\n]+)", readme)

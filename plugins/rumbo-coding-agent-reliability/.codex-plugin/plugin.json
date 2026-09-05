@@ -1,0 +1,43 @@
+{
+  "name": "rumbo-coding-agent-reliability",
+  "version": "0.1.6",
+  "description": "Evidence-first workflows for reliable coding-agent execution, continuity, scope control, and final-state verification.",
+  "author": {
+    "name": "RUMBO IA",
+    "email": "sebastian@rumbo.verso.fans",
+    "url": "https://rumbo.verso.fans"
+  },
+  "homepage": "https://rumbo.verso.fans",
+  "repository": "https://github.com/RUMBO-IA/Rumbo",
+  "keywords": [
+    "coding agents",
+    "agent reliability",
+    "governance",
+    "verification",
+    "audit",
+    "continuity"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "RUMBO Coding-Agent Reliability",
+    "shortDescription": "Evidence-first coding-agent reliability workflows",
+    "longDescription": "Recover authoritative state, reconcile conflicting evidence, control agent loops, verify real effects, and audit final state before accepting coding-agent work.",
+    "developerName": "RUMBO IA",
+    "category": "Developer Tools",
+    "capabilities": [
+      "Read"
+    ],
+    "websiteURL": "https://rumbo.verso.fans",
+    "privacyPolicyURL": "https://rumbo.verso.fans/plugins/rumbo-coding-agent-reliability/privacy",
+    "termsOfServiceURL": "https://rumbo.verso.fans/plugins/rumbo-coding-agent-reliability/terms",
+    "defaultPrompt": [
+      "Recover the canonical state before changing this workflow.",
+      "Reconcile conflicting agent execution receipts.",
+      "Audit this agent run and report what is actually proven."
+    ],
+    "brandColor": "#111111",
+    "screenshots": [],
+    "composerIcon": "./assets/icon.svg",
+    "logo": "./assets/logo.svg"
+  }
+}
